@@ -5,6 +5,7 @@
  */
 package reforco;
 
+import java.text.DecimalFormat;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -20,8 +21,8 @@ public class Reforco {
     public static void main(String[] args) {
         // TODO code application logic here
         // 0 = caminho livre   =>   1 = caminho ocupado   =>   2 = jogador
-        int linha = 4;
-        int coluna = 4;
+        int linha = 6;
+        int coluna = 6;
         Random numberAleatorio = new Random();
         int pos_y;
         int pos_x;
@@ -40,10 +41,12 @@ public class Reforco {
         double q = 0;
         String direcao = ""; 
         double maiorValor = 0;
-        Cell [][]cellMat = {{new Cell(0, 0, 0, 0, 0, 0), new Cell(0, 0, 0, 0, 0, 0), new Cell(0, 0, 0, 0, 0, 0), new Cell(0, 0, 0, 0, 0, 0)},
-                            {new Cell(0, 0, 0, 0, 0, 0), new Cell(0, 0, 0, 0, 0, 0), new Cell(0, 0, 0, 0, 0, 0), new Cell(0, 0, 0, 0, 0, 0)},
-                            {new Cell(0, 0, 0, 0, 0, 0), new Cell(0, 0, 0, 0, 0, 0), new Cell(0, 0, 0, 0, 0, 0), new Cell(0, 0, 0, 0, 0, 0)},
-                            {new Cell(0, 0, 0, 0, 0, 0), new Cell(0, 0, 0, 0, 0, 0), new Cell(0, 0, 0, 0, 0, 0), new Cell(10, 0, 0, 0, 0, 0)},
+        Cell [][]cellMat = {{new Cell(0, 0, 0, 0, 0, 0),new Cell(0, 0, 0, 0, 0, 0), new Cell(0, 0, 0, 0, 0, 0), new Cell(0, 0, 0, 0, 0, 0), new Cell(0, 0, 0, 0, 0, 0), new Cell(0, 0, 0, 0, 0, 0)},
+                            {new Cell(0, 0, 0, 0, 0, 0), new Cell(0, 0, 0, 0, 0, 0), new Cell(0, 0, 0, 0, 0, 0), new Cell(0, 0, 0, 0, 0, 0), new Cell(0, 0, 0, 0, 0, 0), new Cell(0, 0, 0, 0, 0, 0)},
+                            {new Cell(0, 0, 0, 0, 0, 0), new Cell(0, 0, 0, 0, 0, 0), new Cell(0, 0, 0, 0, 0, 0), new Cell(0, 0, 0, 0, 0, 0), new Cell(0, 0, 0, 0, 0, 0), new Cell(0, 0, 0, 0, 0, 0)},
+                            {new Cell(0, 0, 0, 0, 0, 0), new Cell(0, 0, 0, 0, 0, 0), new Cell(0, 0, 0, 0, 0, 0), new Cell(0, 0, 0, 0, 0, 0), new Cell(0, 0, 0, 0, 0, 0), new Cell(0, 0, 0, 0, 0, 0)},
+                            {new Cell(0, 0, 0, 0, 0, 0), new Cell(0, 0, 0, 0, 0, 0), new Cell(0, 0, 0, 0, 0, 0), new Cell(0, 0, 0, 0, 0, 0), new Cell(0, 0, 0, 0, 0, 0), new Cell(0, 0, 0, 0, 0, 0)},
+                            {new Cell(0, 0, 0, 0, 0, 0), new Cell(0, 0, 0, 0, 0, 0), new Cell(0, 0, 0, 0, 0, 0), new Cell(0, 0, 0, 0, 0, 0), new Cell(0, 0, 0, 0, 0, 0), new Cell(10, 0, 0, 0, 0, 0)}
                            };
 
         do {
@@ -60,14 +63,14 @@ public class Reforco {
         while(true){
             if(horizontal == coluna-1 && vertical == linha-1){
      
-                System.out.println("########");
+                /*System.out.println("########");
                 for(int i=0; i<linha; i++){
                     for(int j=0; j<coluna; j++){
                         System.out.print(cellMat[i][j].valor);
                         System.out.print(" ");
                     }
                     System.out.println();
-                }
+                }*/
                 System.out.println("CHEGOUUUUUUU");
 
                 /*System.out.println("########");
@@ -161,17 +164,29 @@ public class Reforco {
                 } else {
                     vertical-=1;
                 }
+
+                /*DecimalFormat fmt = new DecimalFormat("0.00"); 
+                
+                System.out.println("########");
+                for(int i=0; i<linha; i++){
+                    for(int j=0; j<coluna; j++){
+                        System.out.print("Up:"+fmt.format(cellMat[i][j].valorUp)+" Down: "+fmt.format(cellMat[i][j].valorDown)+" Left: "+fmt.format(cellMat[i][j].valorLeft)+" Right: "+fmt.format(cellMat[i][j].valorRight));
+                        System.out.print("/");
+                    }
+                    System.out.println();
+                }*/
+                cellMat[vertical][horizontal].valor = 2; 
             }
 
             q = cellMat[vertical][horizontal].r + (0.9 * Math.max(cellMat[vertical][horizontal].valorRight, Math.max(cellMat[vertical][horizontal].valorLeft, Math.max(cellMat[vertical][horizontal].valorDown, cellMat[vertical][horizontal].valorUp))));
             
-            if(direcao == "e")
+            if(direcao == "e" && auxHorizontal != 0 && cellMat[auxVertical][auxHorizontal].valorLeft == 0)
                 cellMat[auxVertical][auxHorizontal].valorLeft = q;
-            else if(direcao == "r")
+            else if(direcao == "r" && auxHorizontal != coluna-1 && cellMat[auxVertical][auxHorizontal].valorRight ==0)
                 cellMat[auxVertical][auxHorizontal].valorRight = q;
-            else if(direcao == "d")
+            else if(direcao == "d" && auxVertical != 0 && cellMat[auxVertical][auxHorizontal].valorDown==0)
                 cellMat[auxVertical][auxHorizontal].valorDown = q;
-            else
+            else if(direcao == "u" && auxVertical != linha-1 && cellMat[auxVertical][auxHorizontal].valorUp==0)
                 cellMat[auxVertical][auxHorizontal].valorUp = q;
         }
     }
